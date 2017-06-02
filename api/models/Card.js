@@ -8,20 +8,64 @@
 module.exports = {
 
   attributes: {
-    cardID: {type: 'INTEGER',
-            primaryKey: true },
-    owner: {model:'Customer'},
-    cvv: {type: 'INTEGER',
-          required: true},
-    last_name: {type:'STRING',
-              required: true},
-    issue_date: {type: 'INTEGER',
-                type: 'date',
-                required: true},
-    expiry_date: {type: 'INTEGER',
-                type: 'date',
-                required: true}
+<<<<<<< HEAD
+    
+    owner:      {model:'customer'},
+    cvv:        {type: 'INTEGER',
+                 minLength:3,
+                 maxLength:3},
+    issue_date: {type: 'date'},
+    expiry_date:{type: 'date'},
+    currency: {type:'string',
+                 enum:['USD', 'EUR', 'GBP'],
+                 defaultsTo: 'EUR',
+                 required:true},
+    balance:  {type: 'float',
+                 max:400,
+                 defaultsTo: 0,
+                 required: true},
+    status: {type: 'string',
+              enum:['pending','Approved', 'suspended'],
+              defaultsTo: 'pending'
+                },
+    transactions: {collection: 'Transaction',
+            via: 'card_ID'},
+                
+  },
 
+  toJSON: function() {
+      var obj = this.toObject();
+      delete obj.createdAt;
+      delete obj.updatedAt;
+      return obj;
+    }
+
+=======
+    cardID:     {type: 'INTEGER',
+                 primaryKey: true
+                },
+    owner:      {model:'Customer'},
+    cvv:        {type: 'INTEGER',
+                 minLength:3,
+                 maxLength:3
+                },
+    issue_date: {type: 'date',
+                },
+    expiry_date:{type: 'date',
+                },
+      currency: {type:'string',
+                 enum:['USD', 'EUR', 'GBP'],
+                 required:true
+                },
+      balance:  {type: 'float',
+                 max:400,
+                 required: true
+                },
+        status: {type: 'string',
+                 enum:['pending','Approved', 'suspended']
+                }
+                
   }
+>>>>>>> ac470dbbe0e21b3dfb98d4d6602cfc7d4acc6a33
 };
 

@@ -28,9 +28,15 @@ module.exports.connections = {
   * Installed by default.                                                    *
   *                                                                          *
   ***************************************************************************/
+<<<<<<< HEAD
   localDiskDb: {
     adapter: 'sails-disk'
-  },
+  }
+=======
+  // localDiskDb: {
+  //   adapter: 'sails-disk'
+  // },
+>>>>>>> ac470dbbe0e21b3dfb98d4d6602cfc7d4acc6a33
 
   /***************************************************************************
   *                                                                          *
@@ -47,6 +53,44 @@ module.exports.connections = {
   //   password: 'YOUR_MYSQL_PASSWORD', //optional
   //   database: 'YOUR_MYSQL_DB' //optional
   // },
+
+<<<<<<< HEAD
+  // sqlitedb: {
+  //   /**
+  //    * Database instance type. Specify whether to store the database on disk
+  //    * or in memory.
+  //    */
+  //   adapter: 'waterline-sqlite3', // or 'memory'
+
+  //   /**
+  //    * Location of file if type='disk'
+  //    */
+  //   filename: './tmp/db.sqlite',
+
+  //   /**
+  //    * Set to true to output SQL queries
+  //    */
+  //   debug: false
+  // }
+=======
+  sqlitedb: {
+    /**
+     * Database instance type. Specify whether to store the database on disk
+     * or in memory.
+     */
+    adapter: 'waterline-sqlite3', // or 'memory'
+
+    /**
+     * Location of file if type='disk'
+     */
+    filename: './tmp/db.sqlite',
+
+    /**
+     * Set to true to output SQL queries
+     */
+    debug: false
+  }
+>>>>>>> ac470dbbe0e21b3dfb98d4d6602cfc7d4acc6a33
 
   /***************************************************************************
   *                                                                          *

@@ -17,7 +17,16 @@ module.exports.models = {
   * connections (see `config/connections.js`)                                *
   *                                                                          *
   ***************************************************************************/
+
+<<<<<<< HEAD
+  // connection: 'sqlitedb',
+
   connection: 'localDiskDb',
+=======
+  connection: 'sqlitedb',
+
+  // connection: 'localDiskDb',
+>>>>>>> ac470dbbe0e21b3dfb98d4d6602cfc7d4acc6a33
 
   /***************************************************************************
   *                                                                          *

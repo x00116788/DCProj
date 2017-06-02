@@ -33,8 +33,13 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': {
-    view: 'homepage'
+    view: 'static/index'
+<<<<<<< HEAD
+  },
+  'post  /transaction/topup': 'TransactionController.topup'
+=======
   }
+>>>>>>> ac470dbbe0e21b3dfb98d4d6602cfc7d4acc6a33
 
   /***************************************************************************
   *                                                                          *
