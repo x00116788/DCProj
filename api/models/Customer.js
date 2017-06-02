@@ -34,12 +34,9 @@ module.exports = {
     },
 
     toJSON: function() {
-      var obj = this.toObject();
-<<<<<<< HEAD
+      var obj = this.toObject();D
     //   delete obj.id;
-=======
-      delete obj.id;
->>>>>>> ac470dbbe0e21b3dfb98d4d6602cfc7d4acc6a33
+
       delete obj.password;
       delete obj.confirmation;
       delete obj.encryptedPassword;
@@ -47,13 +44,9 @@ module.exports = {
       return obj;
     }
 
-<<<<<<< HEAD
-=======
+
 
   },
->>>>>>> ac470dbbe0e21b3dfb98d4d6602cfc7d4acc6a33
-
-  }
 
 //   beforeCreate: function(values,next){
       
@@ -67,7 +60,6 @@ module.exports = {
 //           next();
 //       });
 
-<<<<<<< HEAD
 //   },
 
 //   password: function(value) {
@@ -79,8 +71,8 @@ module.exports = {
 //       // • contain at least one letter
 //       return _.isString(value) && value.length >= 6 && value.match(/[a-z]/i) && value.match(/[0-9]/);
 //     }
-=======
-  },
+
+  // },
 
   password: function(value) {
       // For all creates/updates of `User` records that specify a value for an attribute
@@ -91,7 +83,6 @@ module.exports = {
       // • contain at least one letter
       return _.isString(value) && value.length >= 6 && value.match(/[a-z]/i) && value.match(/[0-9]/);
     }
->>>>>>> ac470dbbe0e21b3dfb98d4d6602cfc7d4acc6a33
   
 };
 

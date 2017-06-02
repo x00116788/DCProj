@@ -8,7 +8,6 @@
 module.exports = {
 
   attributes: {
-<<<<<<< HEAD
     
     owner:      {model:'customer'},
     cvv:        {type: 'INTEGER',
@@ -40,32 +39,6 @@ module.exports = {
       return obj;
     }
 
-=======
-    cardID:     {type: 'INTEGER',
-                 primaryKey: true
-                },
-    owner:      {model:'Customer'},
-    cvv:        {type: 'INTEGER',
-                 minLength:3,
-                 maxLength:3
-                },
-    issue_date: {type: 'date',
-                },
-    expiry_date:{type: 'date',
-                },
-      currency: {type:'string',
-                 enum:['USD', 'EUR', 'GBP'],
-                 required:true
-                },
-      balance:  {type: 'float',
-                 max:400,
-                 required: true
-                },
-        status: {type: 'string',
-                 enum:['pending','Approved', 'suspended']
-                }
-                
-  }
->>>>>>> ac470dbbe0e21b3dfb98d4d6602cfc7d4acc6a33
+
 };
 
