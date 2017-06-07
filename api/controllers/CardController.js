@@ -8,35 +8,29 @@
 module.exports = {
 
 	create: function (req, res) {
-        // Create a User with the params sent from
-        // the sign-up form --> new.ejs
-
-        Card.create(req.params.all(), function cardCreated(err, card) {
-            if (err) {
-                console.log(err);
-                return res.send('error occured');
-            }
+        if (req.params.all().amount < 10){
+            res.send(400,'initial top up must be 10EUR and above')
+        };
+        Customer.findOne(req.params.all().owner, (err, customer) =>{
+            if (!customer){ res.send(400, 'invalid Customer')}
             else{
-                card.issue_date = new Date(CardService.issued());
-                card.expiry_date = CardService.expires();
-                card.status = 'pending';
-
+                Card.create({
+                    issue_date : new Date(),
+                    expiry_date : CardService.expires(),
+                    status : 'Active',
+                    cvv : CardService.makeCVV(),
+                    cardNumber : CardService.cardNumber(req.params.all().owner),
+                    balance : req.params.all().amount,
+                    owner : customer
+                }).exec(function(err, card) {
+                    if (err){res.send(400, err)}
+                    // if (!card){res.end(400, 'something went wrong')}
+                    res.json(201,card);
+                });
             }
-            res.json(card);
             
-            // // Log user in
-            // req.session.authenticated = true;
-            // req.session.User = user;
-            
-            // // After successfully creating the user
-            // // redirect to the show action
-            // return res.redirect('/user/show/' + user.id);
-        });
+        })        
     },
-
-    'new': function(req,res){
-        res.view();
-    }
-	
+    
 };
 

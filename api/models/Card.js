@@ -9,34 +9,43 @@ module.exports = {
 
   attributes: {
     
-    owner:      {model:'customer'},
-    cvv:        {type: 'INTEGER',
-                 minLength:3,
-                 maxLength:3},
+    owner:      {model:'customer',
+                 required:true},
+    cvv:        {type: 'INTEGER'
+                  
+                 },
+    cardNumber: {type: 'INTEGER',
+                  
+                  unique: true},
     issue_date: {type: 'date'},
     expiry_date:{type: 'date'},
     currency: {type:'string',
                  enum:['USD', 'EUR', 'GBP'],
-                 defaultsTo: 'EUR',
-                 required:true},
-    balance:  {type: 'float',
-                 max:400,
+                 defaultsTo: 'EUR',},
+    balance:  {type: 'FLOAT',
+                 max:1500,
                  defaultsTo: 0,
                  required: true},
     status: {type: 'string',
-              enum:['pending','Approved', 'suspended'],
-              defaultsTo: 'pending'
+              enum:['Cancelled','Active', 'Suspended'],
+              defaultsTo: 'Active'
                 },
     transactions: {collection: 'Transaction',
             via: 'card_ID'},
                 
   },
 
-  toJSON: function() {
-      var obj = this.toObject();
-      delete obj.createdAt;
-      delete obj.updatedAt;
-      return obj;
+  // toJSON: function() {
+  //     var obj = this.toObject();
+  //     delete obj.createdAt;
+  //     delete obj.updatedAt;
+  //     return obj;
+  //   },
+
+    balanceUpdate: function(amount){
+      amount = Number(amount);
+      this.balance += amount;
+      
     }
 
 

@@ -7,7 +7,9 @@
 
 module.exports = {
 
-//   schema: true,
+//  schema: true,
+
+    // autosubscribe: ['destroy'],
 
   attributes: {
     // id: {type: 'INTEGER',
@@ -30,59 +32,60 @@ module.exports = {
                         password:true},
     cards: {
       collection: 'card',
-      via: 'owner'
+      via: 'owner',
+      max:4
     },
 
     toJSON: function() {
-      var obj = this.toObject();D
+      var obj = this.toObject();
     //   delete obj.id;
-
       delete obj.password;
       delete obj.confirmation;
       delete obj.encryptedPassword;
       // delete obj._csrf;
       return obj;
     }
+  },
 
+  beforeCreate: function(values,next){
+      
+      if (!values.password || values.password !== values.confirmation){
+          return next({err:["password doesn't match confirmation."]})
+      }
+      
+      if (!values.password.length >= 8 || !values.password.match(/[a-z]/i) || !values.password.match(/[0-9]/) || !_.isString(values.password)){
+        return next("Password must contain letter/s, number/s and atleast 8 characters long")
+      }
 
+      require('bcrypt').hash(values.password,10, function passwordEncrypted(err, encryptedPassword){
+          if (err) return next(err);
+          values.encryptedPassword = encryptedPassword;
+          next();
+      });
 
   },
 
-//   beforeCreate: function(values,next){
-      
-//       if (!values.password || values.password !== values.confirmation){
-//           return next({err:["password doesn't match confirmation."]})
-//       }
-
-//       require('bcrypt').hash(values.password,10, function passwordEncrypted(err, encryptedPassword){
-//           if (err) return next(err);
-//           values.encryptedPassword = encryptedPassword;
-//           next();
-//       });
-
-//   },
-
-//   password: function(value) {
-//       // For all creates/updates of `User` records that specify a value for an attribute
-//       // which declares itself `type: 'password'`, that value must:
-//       // • be a string
-//       // • be at least 6 characters long
-//       // • contain at least one number
-//       // • contain at least one letter
-//       return _.isString(value) && value.length >= 6 && value.match(/[a-z]/i) && value.match(/[0-9]/);
-//     }
-
-  // },
-
-  password: function(value) {
-      // For all creates/updates of `User` records that specify a value for an attribute
-      // which declares itself `type: 'password'`, that value must:
-      // • be a string
-      // • be at least 6 characters long
-      // • contain at least one number
-      // • contain at least one letter
-      return _.isString(value) && value.length >= 6 && value.match(/[a-z]/i) && value.match(/[0-9]/);
+  customValidation: function (req, callback) {
+        this.validate(req.params.all(), callback);
     }
   
+
+    /**
+   * Check validness of a login using the provided inputs.
+   *
+   * @param  {Object}   inputs
+   *                     • email    {String}
+   *                     • password {String}
+   * @param  {Function} cb
+   */
+
+  // attemptLogin: function (inputs, cb) {
+  //   Customer.findOne({
+  //     email: inputs.email,
+  //     password: inputs.password
+  //   })
+  //   .exec(cb);
+  // }
+
 };
 

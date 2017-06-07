@@ -6,25 +6,40 @@
  */
 
 module.exports = {
-    create: function (req, res) {
-        // Create a User with the params sent from
-        // the sign-up form --> new.ejs
-
+    create: function (req, res) {        
         try{
             Customer.create(req.allParams(), function(err, user) {
             if (err) {
-                // console.log(err);
-                res.send(404, 'invalid input/s');
+                console.log(err);
+                res.send(400, err);
             }
-            res.json(201,user);
+            res.send(201,user);
             });
 
         }catch(error){
             res.end(error);
-
         }
    
+    },
+
+    login: function(req, res) {
+    var email = req.body.email;
+    var password = req.body.password;
+    if (!email || !password || email === undefined || password === undefined) {
+      res.send(400, "Missing params");
     }
+    else{
+        Customer.findOne({email: email, password: password})
+        .exec(function(err, customer) {
+            if (err) {res.send(err)}
+            if (!customer) {res.send(400,"Invalid Credentials")}
+            console.log(customer)
+            res.send(200, customer);
+      })
+    }
+    
+  }
+
 	
 };
 

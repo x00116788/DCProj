@@ -19,6 +19,8 @@
  * For more information on configuring custom routes, check out:
  * http://sailsjs.org/#!/documentation/concepts/Routes/RouteTargetSyntax.html
  */
+var standardTimeout = 5000,
+    maxTimeout      = 29000;
 
 module.exports.routes = {
 
@@ -36,7 +38,16 @@ module.exports.routes = {
     view: 'static/index'
 
   },
-  'post  /transaction/topup': 'TransactionController.topup'
+
+  "POST  /customers": {controller: "CustomerController", action: "create", locals: {myTimeOut: standardTimeout}},
+
+  "POST  /topup": {controller: "TransactionController", action: "topup", locals: {myTimeOut: standardTimeout}},
+
+  "POST /login":  {controller: "CustomerController", action: "login", locals: {myTimeOut: standardTimeout}},
+
+  "GET /exchange": {controller: "TransactionController", action: "exchange", locals: {myTimeOut: standardTimeout}},
+
+  "POST  /spend": {controller: "TransactionController", action: "spend", locals: {myTimeOut: standardTimeout}},
 
 
   /***************************************************************************
