@@ -24,7 +24,6 @@ module.exports = {
                     owner : customer
                 }).exec(function(err, card) {
                     if (err){res.send(400, err)}
-                    // if (!card){res.end(400, 'something went wrong')}
                     res.json(201,card);
                 });
             }

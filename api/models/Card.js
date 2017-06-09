@@ -31,16 +31,16 @@ module.exports = {
               defaultsTo: 'Active'
                 },
     transactions: {collection: 'Transaction',
-            via: 'card_ID'},
+            via: 'card_ID'}
                 
   },
 
-  // toJSON: function() {
-  //     var obj = this.toObject();
-  //     delete obj.createdAt;
-  //     delete obj.updatedAt;
-  //     return obj;
-  //   },
+  toJSON: function() {
+      var obj = this.toObject();
+      delete obj.cvv;
+      delete obj.updatedAt;
+      return obj;
+    },
 
     balanceUpdate: function(amount){
       amount = Number(amount);
