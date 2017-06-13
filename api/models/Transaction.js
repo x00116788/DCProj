@@ -8,21 +8,27 @@
 module.exports = {
 
   attributes: {
-    transaction_ref:{type: 'string' },
+    transaction_ref:{type: 'string',
+                      defaultsTo: ' ' },
     transaction_amount:{type:'FLOAT',
                     required:true
                   },
+    rate: {type: 'FLOAT'},
     currency:{type:'string',
               required:true    
             },
     card_ID:{model:'Card'},
-    description:{type:'string'},
+    description:{type:'string',
+                  defaultsTo: ' '},
+    date: {type: 'date'},
     status:{type:'string',
-            enum:['approved','rejected']
+            enum:['approved','rejected', 'unknown'],
+            defaultsTo: 'unknown'
             },
     direction:{type:'string',
-                enum:['IN', 'OUT']}
-              },
+                enum:['IN', 'OUT', 'unknown'],
+                defaultsTo: 'unknown'}
+  },
   toJSON: function() {
       var obj = this.toObject();
       delete obj.auth;

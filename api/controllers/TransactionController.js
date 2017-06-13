@@ -24,24 +24,32 @@ module.exports = {
 
     spend: function(req,res){
         if (req.headers.auth === undefined || req.headers.auth != Auth){res.send(401, 'NOt Authenticated')}
-
-        try{
-            req.allParams().auth = undefined;
-            TransactionService.spend(req.allParams()).then((spendPromise) => {
-                console.log(spendPromise);
-                res.send(spendPromise)
-            })
-            .catch((non) => {
-                console.log(non)
-				res.send(403,{error: non})
-				});
-            
-        }catch(e){res.send(e)}
+        TransactionService.exchange(req.allParams().currency).then((rate) => {
+            var xrate = rate.toString().match(/([0-9]*[.])?[0-9]+/);
+                console.log(xrate[0])
+            if (isNaN(xrate[0]))
+            {res.send(403, 'invalid currency')}
+            else{
+                try{
+                    req.allParams().auth = undefined;
+                    // if (req.allParams().currency)
+                    TransactionService.spend(req.allParams(), xrate[0]).then((spendPromise) => {
+                        res.send(spendPromise)
+                    })
+                    .catch((non) => {
+                        console.log(non)
+                        res.send(403,{error: non})
+                        });
+                    
+                }catch(e){res.send(e)}
+            }
+        })
+        
     },
 
     exchange: function(req,res){
         TransactionService.exchange(req.allParams().currency).then((ret) =>{
-            let dd = toString(ret)
+            let dd = 100 * Number(ret);
             console.log('dd ' + dd)
             res.send(201, ret);
         })

@@ -6,14 +6,15 @@ module.exports = {
     exchange: function(from){
 
         let promise = new Promise( (fulfill, reject) => {
-            try{
-                http.get('http://free.currencyconverterapi.com/api/v3/convert?q='+ from + '_EUR&compact=ultra', (chunk) =>{
+            http.get('http://free.currencyconverterapi.com/api/v3/convert?q='+ from + '_EUR&compact=ultra', (chunk) =>{
                 chunk.on('data', (returnedRate) =>{
-                    let rr = returnedRate.toString().match(/([0-9]*[.])?[0-9]+/)
-                    fulfill(JSON.parse(rr[0]));
+                    fulfill(returnedRate)
+                //     console.log(returnedRate.toString());
+                // let rr = returnedRate.toString().match(/([0-9]*[.])?[0-9]+/)
+                // if (rr != null ){fulfill(JSON.parse(rr[0]));}
+                // else {reject(returnedRate)}
                 })
-            })
-            }catch(err){reject(err, 'endpoint error')}            
+            })         
         })
         return promise;
     },
@@ -29,6 +30,7 @@ module.exports = {
                     if (params.transaction_amount <= 5){
                         reject ('top up amount below minimum')
                     }
+                    balance = card.balance
                         // console.log(card);
                     Transaction.create(params, function (err, trans){
                         if (err){reject(err)}
@@ -43,6 +45,13 @@ module.exports = {
                             card.balance += Number(params.transaction_amount);
                             card.save();
                             trans.save();
+                            let success = {
+                            'reference': trans.transaction_ref,
+                            'message': 'success',
+                            'previous balance': balance,
+                            'new balance': card.balance
+                        }
+                        fulfill (success); 
                             // console.log(trans);
                             fulfill (trans);
                         }                        
@@ -54,7 +63,7 @@ module.exports = {
 
     },
 
-    spend: function(params){
+    spend: function(params, xrate){
         let spendPromise = new Promise( (fulfill, reject) => {
         var balance;
             Card.findOne({
@@ -67,7 +76,6 @@ module.exports = {
                 { 
                     reject ('invalid card')
                 }
-                balance = card.balance
                 Transaction.create(params, function (err, trans){
                    if (err){
                        reject(err)
@@ -76,21 +84,19 @@ module.exports = {
                         reject ('error occured')
                     }
                     else{
+                        console.log(card.balance);
                         trans.transaction_ref = "Debit " + card.id + ' ' + new Date().toString();
-                        trans.description = 'params.merchant';
+                        trans.description = params.merchant;
+                        trans.rate = xrate;
                         trans.direction = 'OUT';
                         trans.status = 'Accepted';
-                        card.balance -= Number(params.transaction_amount) + fee;
-                        card.save()
+                        trans.date = new Date();
+                        card.balance -= Number(params.transaction_amount * xrate) + fee;
+                        card.save();
+                        trans.balance = card.balance;
                         trans.save();
-                        console.log(trans);
-                        let success = {
-                            'reference': trans.transaction_ref,
-                            'message': 'success',
-                            'previous balance': balance,
-                            'new balance': card.balance
-                        }
-                        fulfill (success); 
+                        console.log(card.balance);                        
+                        fulfill (trans); 
                     }
 
                 })
