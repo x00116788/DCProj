@@ -27,8 +27,7 @@ module.exports = {
                  defaultsTo: 0,
                  required: true},
     status: {type: 'string',
-              enum:['Cancelled','Active', 'Suspended'],
-              defaultsTo: 'Active'
+              enum:['Cancelled','Active', 'Suspended', 'Expired'],
                 },
     transactions: {collection: 'Transaction',
             via: 'card_ID'}
@@ -42,12 +41,14 @@ module.exports = {
       return obj;
     },
 
-    balanceUpdate: function(amount){
-      amount = Number(amount);
-      this.balance += amount;
-      
-    }
-
+  AfterCreate: function (){
+      today = new Date()
+      if (this.expiry_date < today)
+      {
+        this.status = 'Expired';
+      }
+  } 
 
 };
+
 

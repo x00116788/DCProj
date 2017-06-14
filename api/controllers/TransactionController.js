@@ -32,7 +32,6 @@ module.exports = {
             else{
                 try{
                     req.allParams().auth = undefined;
-                    // if (req.allParams().currency)
                     TransactionService.spend(req.allParams(), xrate[0]).then((spendPromise) => {
                         res.send(spendPromise)
                     })
@@ -47,13 +46,21 @@ module.exports = {
         
     },
 
-    exchange: function(req,res){
-        TransactionService.exchange(req.allParams().currency).then((ret) =>{
-            let dd = 100 * Number(ret);
-            console.log('dd ' + dd)
-            res.send(201, ret);
-        })
-    }
+    quick_topup: function(req,res){
+        if (req.headers.auth === undefined || req.headers.auth != Auth){res.send(401, 'NOt Authenticated')}
+        try{
+            req.allParams().auth = undefined;
+            TransactionService.quick_topup(req.allParams()).then((topupPromise) => {
+                res.send(topupPromise)
+            })
+            .catch((non) => {
+				res.send(403,{error: non})
+				});
+            
+        }catch(e){res.send(e)}    
+
+    },
+
 	
 };
 

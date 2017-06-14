@@ -41,11 +41,15 @@ module.exports.routes = {
 
   "POST  /customers": {controller: "CustomerController", action: "create", locals: {myTimeOut: standardTimeout}},
 
+  "PATCH  /customers": {controller: "CustomerController", action: "patch", locals: {myTimeOut: standardTimeout}},
+
   "POST  /topup": {controller: "TransactionController", action: "topup", locals: {myTimeOut: standardTimeout}},
+
+  "POST  /quicktopup": {controller: "TransactionController", action: "quick_topup", locals: {myTimeOut: standardTimeout}},
 
   "POST /login":  {controller: "CustomerController", action: "login", locals: {myTimeOut: standardTimeout}},
 
-  "GET /exchange": {controller: "TransactionController", action: "exchange", locals: {myTimeOut: standardTimeout}},
+  "GET /balance": {controller: "CardController", action: "balance", locals: {myTimeOut: standardTimeout}},
 
   "POST  /spend": {controller: "TransactionController", action: "spend", locals: {myTimeOut: standardTimeout}},
 

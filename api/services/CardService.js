@@ -14,6 +14,47 @@ module.exports = {
     },
     cardNumber: function(id){
         return numbers[id];
+    },
+
+
+    validateOne: function(params){
+        let validPromise = new Promise((fulfill, reject) => {
+            Card.findOne({cardNumber: params.cardNumber})
+            .exec(function (err,card){
+                if (err) {
+                    console.log('validate one error ' + err);
+                        reject (err);
+                    }
+                if (!card || card.cvv != params.cvv || card.status != 'Active')//|| card.expiry_date != req.allParams.expiry_date )
+                    { 
+                        reject ('invalid card')
+                }
+                else{ 
+                    console.log(card);
+                    fulfill(card) } 
+            })
+        })
+        return validPromise;
+    },
+
+    validateId: function(params){
+        let validPromise = new Promise((fulfill, reject) => {
+            Card.findOne({id: params.card_ID})
+            .exec(function (err,card){
+                if (err) {
+                    console.log('validate one error ' + err);
+                        reject (err);
+                    }
+                if (!card || card.cvv != params.cvv || card.status != 'Active')//|| card.expiry_date != req.allParams.expiry_date )
+                    { 
+                        reject ('invalid card')
+                }
+                else{ 
+                    console.log(card);
+                    fulfill(card) } 
+            })
+        })
+        return validPromise;
     }
 }
 

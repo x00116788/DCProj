@@ -13,21 +13,19 @@ module.exports = {
     transaction_amount:{type:'FLOAT',
                     required:true
                   },
+    balance: {type:'FLOAT'},
+    new_balance: {type:'FLOAT'},
     rate: {type: 'FLOAT'},
     currency:{type:'string',
               required:true    
             },
     card_ID:{model:'Card'},
-    description:{type:'string',
-                  defaultsTo: ' '},
+    description:{type:'string'},
     date: {type: 'date'},
     status:{type:'string',
-            enum:['approved','rejected', 'unknown'],
-            defaultsTo: 'unknown'
-            },
+            enum:['Approved','Rejected']},
     direction:{type:'string',
-                enum:['IN', 'OUT', 'unknown'],
-                defaultsTo: 'unknown'}
+                enum:['IN', 'OUT']}
   },
   toJSON: function() {
       var obj = this.toObject();

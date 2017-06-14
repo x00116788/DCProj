@@ -12,8 +12,6 @@ module.exports = {
     // autosubscribe: ['destroy'],
 
   attributes: {
-    // id: {type: 'INTEGER',
-    //     primaryKey: true },
     first_name: {type:'STRING',
                 alphanumeric: true,
                 required: true},
@@ -38,7 +36,7 @@ module.exports = {
 
     toJSON: function() {
       var obj = this.toObject();
-    //   delete obj.id;
+    //  delete obj.id;
       delete obj.password;
       delete obj.confirmation;
       delete obj.encryptedPassword;
