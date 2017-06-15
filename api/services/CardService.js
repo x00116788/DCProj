@@ -25,7 +25,7 @@ module.exports = {
                     console.log('validate one error ' + err);
                         reject (err);
                     }
-                if (!card || card.cvv != params.cvv || card.status != 'Active')//|| card.expiry_date != req.allParams.expiry_date )
+                if (!card || card.cvv != params.cvv || card.status != 'Active')
                     { 
                         reject ('invalid card')
                 }
@@ -45,7 +45,7 @@ module.exports = {
                     console.log('validate one error ' + err);
                         reject (err);
                     }
-                if (!card || card.cvv != params.cvv || card.status != 'Active')//|| card.expiry_date != req.allParams.expiry_date )
+                if (!card || card.status != 'Active')
                     { 
                         reject ('invalid card')
                 }

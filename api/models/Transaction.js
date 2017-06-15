@@ -8,8 +8,7 @@
 module.exports = {
 
   attributes: {
-    transaction_ref:{type: 'string',
-                      defaultsTo: ' ' },
+    transaction_ref:{type: 'string' },
     transaction_amount:{type:'FLOAT',
                     required:true
                   },

@@ -26,7 +26,6 @@ module.exports = {
         if (req.headers.auth === undefined || req.headers.auth != Auth){res.send(401, 'NOt Authenticated')}
         TransactionService.exchange(req.allParams().currency).then((rate) => {
             var xrate = rate.toString().match(/([0-9]*[.])?[0-9]+/);
-                console.log(xrate[0])
             if (isNaN(xrate[0]))
             {res.send(403, 'invalid currency')}
             else{
@@ -36,7 +35,6 @@ module.exports = {
                         res.send(spendPromise)
                     })
                     .catch((non) => {
-                        console.log(non)
                         res.send(403,{error: non})
                         });
                     

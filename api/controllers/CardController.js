@@ -33,10 +33,9 @@ module.exports = {
 
     balance: function (req, res){
         CardService.validateOne(req.allParams()).then((valid) =>{
-            res.send(201, valid.balance)
+            res.send(200, {"balance" : valid.balance})
             })
             .catch((non) => {
-                console.log ('non ' + non);
 				res.send(403,{errors: non})
 			});
     }
